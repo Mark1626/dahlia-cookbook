@@ -3,7 +3,7 @@ open_project -reset tsp_prj
 set_top tsp
 
 add_files tsp.hls.cpp
-add_files tsp.hls.h
+add_files tsp.h
 add_files -tb tsp_TB.cpp
 
 open_solution "solution" -flow_target vivado

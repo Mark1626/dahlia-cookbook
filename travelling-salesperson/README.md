@@ -1,6 +1,27 @@
+# Travelling Salesperson
 
+The code is based on [this](https://github.com/Xilinx/Vitis-Tutorials/blob/2023.2/Hardware_Acceleration/Design_Tutorials/04-traveling-salesperson/code/tsp.cpp) in Vitis Tutorials
 
-https://github.com/Xilinx/Vitis-Tutorials/blob/2023.2/Hardware_Acceleration/Design_Tutorials/04-traveling-salesperson/code/tsp.cpp
+This has been run on Vitis HLS 2022.2
+
+|------------------------------------------------|
+|                      |          Status         |
+|----------------------|-------------------------|
+| Implementation       | Done(needs improvement) |
+| CSim                 | Working                 |
+| Synth                | Working                 |
+| CoSim                | Working                 |
+| Artix7               |                         |
+| Ultrascale or AWS F1 |                         |
+|------------------------------------------------|
+
+## Building and testing
+
+The build_hls.tcl script can create a HLS project and run csim, synthesis and cosim.
+
+```
+make synthesis
+```
 
 ## Performance
 

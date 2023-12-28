@@ -1,6 +1,8 @@
 /*
-  Modified TB
+  Slightly modified TB from Vitis-Tutorials
+  https://github.com/Xilinx/Vitis-Tutorials/blob/2023.2/Hardware_Acceleration/Design_Tutorials/04-traveling-salesperson/code/tsp.cpp
 */
+
 /*
  * Copyright 2021 Xilinx, Inc.
  *
@@ -24,7 +26,7 @@
 #include <cmath>
 #include <vector>
 
-#include "tsp.hls.h"
+#include "tsp.h"
 
 // main
 // 
@@ -33,9 +35,6 @@ typedef struct {
     float x;
     float y;
 } Coord;
-
-
-const int N = 10;
 
 int main()
 {
