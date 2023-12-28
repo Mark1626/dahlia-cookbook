@@ -1,4 +1,4 @@
-DAHLIA=~/Documents/opensource/mlir/dahlia/fuse
+DAHLIA=fuse
 
 all: tsp.test.cpp tsp.hls.cpp
 

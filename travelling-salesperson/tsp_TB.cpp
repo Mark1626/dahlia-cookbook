@@ -39,8 +39,8 @@ typedef struct {
 int main()
 {
 
-  ap_int<16> inputDistances[N * N];
-  ap_int<32> outputDistance[1];
+  ap_uint<16> inputDistances[N * N];
+  ap_uint<32> outputDistance[1];
 
   const Coord cities[] = {{40.7127837, -74.0059413 },
                           {34.0522342, -118.2436849},

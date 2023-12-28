@@ -6,7 +6,8 @@ This repo contains examples of using [Dahlia](https://github.com/cucapra/dahlia)
 
 1. [Travelling Salesperson](./travelling-salesperson/README.md)
 
-## Roadmap
+## TODO
 
 - Add an example with a data shuffle
 - Maybe this [kmeans example?](https://github.com/Xilinx/Vitis_Accel_Examples/blob/f61637e9263ecc1be3df34182ea6c53a0ca10447/demo/kmeans/src/krnl_kmeans.cpp)
+- Have a common Makefile from which each example will inherit rules

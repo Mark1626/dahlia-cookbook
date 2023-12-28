@@ -5,7 +5,7 @@
 
 extern "C" {
 
-void tsp(ap_uint<16> *dist_int, ap_uint<32> *shortest_dist_int);
+void tsp(ap_uint<16> dist_int[N*N], ap_uint<32> shortest_dist_int[1]);
 
 }
 
