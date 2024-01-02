@@ -2,6 +2,9 @@ DAHLIA=fuse
 
 all: tsp.test.cpp tsp.hls.cpp
 
+%.fuse: %.fuse.m4
+	m4 $< > $@
+
 %.hls.cpp: %.fuse
 	$(DAHLIA) $< -n tsp -o $@
 
