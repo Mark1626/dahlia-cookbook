@@ -5,6 +5,7 @@ This repo contains examples of using [Dahlia](https://github.com/cucapra/dahlia)
 ## Examples
 
 1. [Travelling Salesperson](./travelling-salesperson/README.md)
+2. [Lorentz ODE Solver with Runge Kutta](./lorentz/README.md)
 
 ## TODO
 
