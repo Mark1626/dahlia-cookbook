@@ -2,10 +2,12 @@
 
 This repo contains examples of using [Dahlia](https://github.com/cucapra/dahlia) for making accelerators. Some of the examples are direct port from [Vitis Tutorials](https://github.com/Xilinx/Vitis-Tutorials).
 
+**Note:** There are some changes made to the source code of Dahlia. https://github.com/mark1626/dahlia
+
 ## Examples
 
 1. [Travelling Salesperson](./travelling-salesperson/README.md)
-2. [Lorentz ODE Solver with Runge Kutta](./lorentz/README.md)
+2. [Lorenz ODE Solver using Runge Kutta](./lorenz/README.md)
 
 ## TODO
 

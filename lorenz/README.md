@@ -1,6 +1,4 @@
-# Lorentz ODE Solver
-
-Port of github.com/google/jax/blob/main/cloud_tpu_colabs/Lorentz_ODE_Solver.ipynb
+# lorenz ODE Solver
 
 Using a second order RK for now
 
@@ -27,13 +25,21 @@ The `Makefile` has a rule to create the HLS code from the Dahlia and call Vitis 
 make synthesis
 ```
 
+The test bench writes the points into a csv file, this can be plotted using the python script in the same directory. It should give something like this.
+
+```
+python plot.py
+```
+
+![Lorenz](./lorenz.png)
+
 ## Report
 
 ### Synthesis
 
 ```
     * Version:        2022.2 (Build 3670227 on Oct 13 2022)
-    * Project:        lorentz_prj
+    * Project:        lorenz_prj
     * Solution:       solution (Vivado IP Flow Target)
     * Product family: virtexuplus
     * Target device:  xcvu37p-fsvh2892-2L-e
@@ -42,20 +48,23 @@ make synthesis
 + Performance & Resource Estimates: 
     
     PS: '+' for module; 'o' for loop; '*' for dataflow
-    +------------------------------+------+------+---------+-----------+----------+---------+------+----------+---------+----+------------+------------+-----+
-    |            Modules           | Issue|      | Latency |  Latency  | Iteration|         | Trip |          |         |    |            |            |     |
-    |            & Loops           | Type | Slack| (cycles)|    (ns)   |  Latency | Interval| Count| Pipelined|  BRAM   | DSP|     FF     |     LUT    | URAM|
-    +------------------------------+------+------+---------+-----------+----------+---------+------+----------+---------+----+------------+------------+-----+
-    |+ lorentz                     |     -|  0.00|     3083|  3.083e+04|         -|     3084|     -|        no|  6 (~0%)|   -|  1094 (~0%)|  1628 (~0%)|    -|
-    | + lorentz_Pipeline_out_loop  |     -|  0.00|     3075|  3.075e+04|         -|     3075|     -|        no|  6 (~0%)|   -|   114 (~0%)|   141 (~0%)|    -|
-    |  o out_loop                  |    II|  7.30|     3073|  3.073e+04|         5|        3|  1024|       yes|        -|   -|           -|           -|    -|
-    +------------------------------+------+------+---------+-----------+----------+---------+------+----------+---------+----+------------+------------+-----+
+    +-----------------------------+------+------+---------+-----------+----------+---------+-------+----------+---------+----------+------------+------------+-----+
+    |           Modules           | Issue|      | Latency |  Latency  | Iteration|         |  Trip |          |         |          |            |            |     |
+    |           & Loops           | Type | Slack| (cycles)|    (ns)   |  Latency | Interval| Count | Pipelined|  BRAM   |    DSP   |     FF     |     LUT    | URAM|
+    +-----------------------------+------+------+---------+-----------+----------+---------+-------+----------+---------+----------+------------+------------+-----+
+    |+ lorenz                     |     -|  0.00|   475161|  4.752e+06|         -|   475162|      -|        no|  48 (1%)|  15 (~0%)|  3064 (~0%)|  3697 (~0%)|    -|
+    | + lorenz_Pipeline_rk_loop   |     -|  0.76|   425986|  4.260e+06|         -|   425986|      -|        no|        -|  15 (~0%)|  1506 (~0%)|  1515 (~0%)|    -|
+    |  o rk_loop                  |    II|  7.30|   425984|  4.260e+06|        28|       26|  16383|       yes|        -|         -|           -|           -|    -|
+    | + lorenz_Pipeline_out_loop  |     -|  0.00|    49155|  4.916e+05|         -|    49155|      -|        no|        -|         -|   120 (~0%)|   174 (~0%)|    -|
+    |  o out_loop                 |    II|  7.30|    49153|  4.915e+05|         5|        3|  16384|       yes|        -|         -|           -|           -|    -|
+    +-----------------------------+------+------+---------+-----------+----------+---------+-------+----------+---------+----------+------------+------------+-----+
 
 ```
 
 ### Cosim
 
 ```
+Solution          : solution.
 Simulation tool   : xsim.
 
 +----------+----------+-----------------------------------------------+-----------------------------------------------+----------------------+
@@ -64,7 +73,7 @@ Simulation tool   : xsim.
 |          |          |      min      |      avg      |      max      |      min      |      avg      |      max      |                      |
 +----------+----------+-----------------------------------------------+-----------------------------------------------+----------------------+
 |      VHDL|        NA|             NA|             NA|             NA|             NA|             NA|             NA|                    NA|
-|   Verilog|      Pass|           3519|           3519|           3519|             NA|             NA|             NA|                  3519|
+|   Verilog|      Pass|         481388|         481388|         481388|             NA|             NA|             NA|                481388|
 +----------+----------+-----------------------------------------------+-----------------------------------------------+----------------------+
 
 ```
@@ -72,6 +81,5 @@ Simulation tool   : xsim.
 ## TODO:
 
 1. Use a fourth order RK
-2. Currently works only for N=1024 steps, make it run for arbitary steps?!
-3. Add assertions in testbench
-4. Pass in the initial state and offset
+2. Add assertions in testbench?
+

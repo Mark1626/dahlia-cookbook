@@ -1,4 +1,4 @@
-define(`MAX_STEPS', 1024)dnl
+define(`MAX_STEPS', 16384)dnl
 
 record state {
     x: float;
@@ -38,33 +38,42 @@ def rk2(ys: state[MAX_STEPS], dt: float, N: ubit<32>) = {
     ---
 
     decor "rk_loop:"
-    for (let i=0..MAX_STEPS) {
-        decor "#pragma HLS loop_tripcount avg=1000"
+    for (let i=1..MAX_STEPS) {
+        if (i < N) {
+            let idx = i + offset;
+            let t = dt * (idx as float);
 
-        let idx = i + offset;
-        let t = dt * (idx as float);
+            let k1: state = st_scale(h, f(current_y, t));
 
-        let k1: state = st_scale(h, f(current_y, t));
+            let k2_y: state = st_add(current_y, st_scale(0.5, k1));
+            let k2: state = st_scale(h, f(k2_y, t + h_2));
 
-        let k2_y: state = st_add(current_y, st_scale(0.5, k1));
-        let k2: state = st_scale(h, f(k2_y, t + h_2));
+            let next_y = st_add(current_y, st_scale(1.0/6.0, st_add(k1, k2)));
 
-        let next_y = st_add(current_y, st_scale(1.0/6.0, st_add(k1, k2)));
-
-        ys[i] := next_y;
+            current_y := next_y;
+            ys[i] := next_y;
+        }
     }
 }
 
+decl init_int: float[3];
 decl ys_int: float[MAX_STEPS][3];
 decl N: ubit<32>;
-// TODO: Add initial step
+decl dt: float;
 
-let dt: float = 0.004;
 let empty: state = { x=0.0; y=0.0; z=0.0 };
 
 {
     let ys: state[MAX_STEPS];
-    let initial_st: state = { x=1.0; y=1.0; z=1.0 };
+
+    let init_x: float = init_int[0];
+    ---
+    let init_y: float = init_int[1];
+    ---
+    let init_z: float = init_int[2];
+    let initial_st: state = { x=init_x; y=init_y; z=init_z };
+
+    ---
 
     ys[0] := initial_st;
     ---
@@ -73,10 +82,12 @@ let empty: state = { x=0.0; y=0.0; z=0.0 };
 
     decor "out_loop:"
     for (let i=0..MAX_STEPS) {
-        ys_int[i][0] := ys[i].x;
-        ---
-        ys_int[i][1] := ys[i].y;
-        ---
-        ys_int[i][2] := ys[i].z;
+        if (i < N) {
+            ys_int[i][0] := ys[i].x;
+            ---
+            ys_int[i][1] := ys[i].y;
+            ---
+            ys_int[i][2] := ys[i].z;
+        }
     }
 }

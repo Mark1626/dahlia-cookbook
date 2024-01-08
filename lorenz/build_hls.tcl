@@ -1,10 +1,10 @@
-open_project -reset lorentz_prj
+open_project -reset lorenz_prj
 
-set_top lorentz
+set_top lorenz
 
-add_files lorentz.hls.cpp
-add_files lorentz.h
-add_files -tb lorentz_TB.cpp
+add_files lorenz.hls.cpp
+add_files lorenz.h
+add_files -tb lorenz_TB.cpp
 
 open_solution "solution" -flow_target vivado
 
