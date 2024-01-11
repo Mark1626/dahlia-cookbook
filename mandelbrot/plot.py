@@ -1,7 +1,8 @@
 import json
 import matplotlib.pyplot as plt
 
-with open('actual.json') as f:
+with open('./mandelbrot_prj/solution/csim/build/out.json') as f:
+# with open('./actual.json') as f:
     d = json.load(f)
     grid = d["grid_int"]
 

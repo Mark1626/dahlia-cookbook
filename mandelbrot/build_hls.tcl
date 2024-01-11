@@ -21,6 +21,6 @@ csim_design
 csynth_design
 
 # Cosim
-cosim_design -trace_level all
+cosim_design
 
 exit

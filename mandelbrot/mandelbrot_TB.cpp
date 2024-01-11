@@ -7,15 +7,24 @@
 #include "mandelbrot.h"
 
 int main() {
-    int N = 256;
+    const int N = 256;
     
-    ap_fixed<32, 16> grid[N][N];
+    ap_uint<8> grid[N][N];
+    ap_fixed<32,16> xst_int = -2.5;
+    ap_fixed<32,16> yst_int = -1.5;
+    ap_fixed<32,16> stepx_int = 0.015;
+    ap_fixed<32,16> stepy_int = 0.01;
+
+    // float xst_int = -2.5;
+    // float yst_int = -1.5;
+    // float stepx_int = 0.015;
+    // float stepy_int = 0.01;
 
     std::ofstream out_dat("out.json");
 
-    lorenz(init_state, ys, N, dt);
+    mandelbrot(grid, xst_int, yst_int, stepx_int, stepy_int);
 
-    out_dat << "{ grid_int: [ ";
+    out_dat << "{ \"grid_int\": [ ";
     for (int i = 0; i < N; i++) {
         out_dat << "[";
         for (int j = 0; j < N; j++) {
@@ -24,7 +33,7 @@ int main() {
         }
         out_dat << "]" << (i != N-1 ? "," : " ");
     }
-    out_dat << "] }"
+    out_dat << "] }";
 
     return 0;
 }
