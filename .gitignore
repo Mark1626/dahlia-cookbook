@@ -1,3 +1,7 @@
 *_prj
 *.log
 *.hls.cpp
+
+actual.json
+*.o
+_headers

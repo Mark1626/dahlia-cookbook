@@ -8,6 +8,8 @@ This repo contains examples of using [Dahlia](https://github.com/cucapra/dahlia)
 
 1. [Travelling Salesperson](./travelling-salesperson/README.md)
 2. [Lorenz ODE Solver using Runge Kutta](./lorenz/README.md)
+3. [Fixed Point Variant of the Lorenz ODE Solver](./lorenz-fp/README.md)
+4. [Mandelbrot set in hardware](./mandelbrot/README.md)
 
 ## TODO
 
