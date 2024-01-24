@@ -1,0 +1,72 @@
+def MX(y: ubit<32>, z: ubit<32>, sum: ubit<32>, p: ubit<32>, e: ubit<32>, key: ubit<32>[4]): ubit<32> = {
+  return (((z >> 5) ^ (y << 2)) + ((y >> 3) ^ (z << 4))) ^ ((sum ^ y) + (key[(p & 3) ^ e] ^ z));
+}
+
+decl data: ubit<32>[1024];
+decl len: ubit<32>;
+decl key: ubit<32>[4];
+
+let delta: ubit<32> = 0x9e3779b9;
+
+{
+  let local_key: ubit<32>[4];
+  let local_data: ubit<32>[1024];
+  let sum: ubit<32> = 0;
+
+  let n: ubit<32> = len;
+  let rounds: ubit<32> = 6 + 52 / len;
+
+  let e: ubit<32>;
+
+  // Load
+  for (let i= 0..4) {
+    local_key[i] := key[i];
+  }
+
+  let i: ubit<16> = 0;
+  while (i < n) {
+    local_data[i] := data[i];
+    i += 1;
+  }
+
+  ---
+
+  let y: ubit<32> = 0;
+  let z: ubit<32> = local_data[n-1];
+
+  ---
+
+  // Compute
+  while (rounds > 0) {
+    sum += delta;
+    e := (sum >> 2) & 3;
+
+    let p: ubit<16> = 0;
+    while (p < (n-1)) {
+      y := local_data[p + 1];
+      --- // TODO: Try a split view to remove this
+      z := local_data[p] + MX(y, z, sum, p, e, local_key);
+      ---
+      local_data[p] := z;
+      p += 1;
+    }
+
+    ---
+    y := local_data[0];
+    ---
+    z := local_data[n - 1] + MX(y, z, sum, p, e, local_key);
+    ---
+    local_data[n - 1] := z;
+
+    rounds -= 1;
+  }
+
+  ---
+
+  // Store
+  i := 0;
+  while (i < n) {
+    data[i] := local_data[i];
+    i += 1;
+  }
+}
