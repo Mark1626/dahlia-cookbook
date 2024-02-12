@@ -12,6 +12,12 @@ This repo contains examples of using [Dahlia](https://github.com/cucapra/dahlia)
 4. [Mandelbrot set in hardware](./mandelbrot/README.md)
 5. [Sandpile Stabilizer](./sandpile-stabilizer/README.md)
 
+## Litex SoC design
+
+![Sandpile](./sandpile-stabilizer/litex-Soc-infra.png)
+LiteX framework provides an efficient infrastructure to create FPGA SoCs. We can add our custom modules into the SoC. Litex Server is going to act as a host. In order to communicate with the FPGA we need a bridge added to the SoC. It could be done in multiple ways, like using UART, Ethernet or PCIe. 
+
+
 ## TODO
 
 - Add an example with a data shuffle
