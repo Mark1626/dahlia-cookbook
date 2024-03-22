@@ -11,6 +11,7 @@ This repo contains examples of using [Dahlia](https://github.com/cucapra/dahlia)
 3. [Fixed Point Variant of the Lorenz ODE Solver](./lorenz-fp/README.md)
 4. [Mandelbrot set in hardware](./mandelbrot/README.md)
 5. [Abelian Sandpile Model](./sandpile-stabilizer/README.md)
+6. [xxtea](./xxtea/README.md)
 
 ## Running on FPGA boards
 
