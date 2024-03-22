@@ -7,8 +7,8 @@ from litex.soc.integration.soc import *
 
 from litex.soc.interconnect import axi
 
-class SANDPILEAXI(Module, AutoCSR):
-    def __init__(self, name = "sandpile"):
+class HLSAccAXI(Module, AutoCSR):
+    def __init__(self, name = "acc"):
         self.clock = ClockSignal()
         self.reset = ResetSignal()
 

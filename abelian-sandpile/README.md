@@ -1,4 +1,4 @@
-# Sandpile stabilizer computed from hardware
+# Abelian Sandpile
 
 ![Sandpile](./sandpile.png)
 
@@ -12,7 +12,9 @@
 | Artix7               | Done                    |
 | Ultrascale or AWS F1 |                         |
 
-## Building and testing
+## Testing and Synthesis
+
+### Dahlia CPP Backend test
 
 To run the cpp functional simulation
 
@@ -28,6 +30,8 @@ python plot.py
 
 ---
 
+### CSim, CoSim and Synthesis
+
 The build_hls.tcl script can create a HLS project and run csim, synthesis and cosim.
 
 The `Makefile` has a rule to create the HLS code from the Dahlia and call Vitis HLS with the `build_hls.tcl` script.
@@ -36,27 +40,31 @@ The `Makefile` has a rule to create the HLS code from the Dahlia and call Vitis 
 make synthesis
 ```
 ---
-## Litex SoC based accelerator
+
+## Accelerator on a Litex SoC
 
 To run the design in Arty A7 board, run the `base.py` which adds our design as a submodule into the SoC. Build and load the bitstream into the FPGA board.
 
 ```
 python3 base.py --build --load --csr-csv=csr.csv
 ```
-* ### Using UART :
-Start the litex server to communicate with the board via UART.
+### Using the accelerator from UART :
+
+1. Start the litex server to communicate with the board via UART.
 
 ```
 litex_server --uart --uart-port=/dev/ttyUSB1
 ```
 
-Run the `run_acc.py` to start the accelerator and check the results.
+2. Run the `run_acc.py` to use the accelerator and check the results.
 
 ```
 python3 run_acc.py
 ```
 
-## Report
+---
+
+## Synthesis Report
 
 ```
     * Version:        2022.2 (Build 3670227 on Oct 13 2022)

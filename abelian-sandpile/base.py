@@ -110,8 +110,8 @@ class BaseSoC(SoCMini):
                 module        = MT41K128M16(sys_clk_freq, "1:4"),
                 l2_cache_size = kwargs.get("l2_size", 8192)
             )
-        from acc import SANDPILEAXI
-        self.submodules.hls = SANDPILEAXI()
+        from acc import HLSAccAXI
+        self.submodules.hls = HLSAccAXI('sandpile')
         self.bus.add_slave("s_hls", self.hls.s_axilite, SoCRegion(
             origin=0x2000_0000,
             size=0x100
@@ -119,61 +119,61 @@ class BaseSoC(SoCMini):
         self.bus.add_master("m_hls", self.hls.m_axi)
         self.platform.add_source_dir("../hls/ma_prj/solution/impl/verilog")
 
-        if with_analyzer:
-            from litescope import LiteScopeAnalyzer
-            analyzer_signals = [self.hls.m_axi.aw.valid,
-                                self.hls.m_axi.aw.ready,
-                                self.hls.m_axi.aw.addr,
-                                self.hls.m_axi.aw.len,
+        # if with_analyzer:
+        #     from litescope import LiteScopeAnalyzer
+        #     analyzer_signals = [self.hls.m_axi.aw.valid,
+        #                         self.hls.m_axi.aw.ready,
+        #                         self.hls.m_axi.aw.addr,
+        #                         self.hls.m_axi.aw.len,
 
-                                self.hls.m_axi.w.valid,
-                                self.hls.m_axi.w.ready,
-                                self.hls.m_axi.w.data,
+        #                         self.hls.m_axi.w.valid,
+        #                         self.hls.m_axi.w.ready,
+        #                         self.hls.m_axi.w.data,
 
-                                self.hls.m_axi.ar.valid,
-                                self.hls.m_axi.ar.ready,
-                                self.hls.m_axi.ar.addr,
-                                self.hls.m_axi.ar.len,
+        #                         self.hls.m_axi.ar.valid,
+        #                         self.hls.m_axi.ar.ready,
+        #                         self.hls.m_axi.ar.addr,
+        #                         self.hls.m_axi.ar.len,
 
-                                self.hls.m_axi.r.valid,
-                                self.hls.m_axi.r.ready,
-                                self.hls.m_axi.r.data,
+        #                         self.hls.m_axi.r.valid,
+        #                         self.hls.m_axi.r.ready,
+        #                         self.hls.m_axi.r.data,
                                 
-                                self.hls.m_axi.b.valid,
-                                self.hls.m_axi.b.ready,
-                                self.hls.m_axi.b.resp,
+        #                         self.hls.m_axi.b.valid,
+        #                         self.hls.m_axi.b.ready,
+        #                         self.hls.m_axi.b.resp,
                                 
-                                self.hls.s_axilite.ar.valid,
-                                self.hls.s_axilite.ar.ready,
-                                self.hls.s_axilite.ar.addr,
+        #                         self.hls.s_axilite.ar.valid,
+        #                         self.hls.s_axilite.ar.ready,
+        #                         self.hls.s_axilite.ar.addr,
                                 
-                                self.hls.s_axilite.r.valid,
-                                self.hls.s_axilite.r.ready,
-                                self.hls.s_axilite.r.data,
+        #                         self.hls.s_axilite.r.valid,
+        #                         self.hls.s_axilite.r.ready,
+        #                         self.hls.s_axilite.r.data,
                                 
-                                self.hls.s_axilite.aw.valid,
-                                self.hls.s_axilite.aw.ready,
-                                self.hls.s_axilite.aw.addr,
+        #                         self.hls.s_axilite.aw.valid,
+        #                         self.hls.s_axilite.aw.ready,
+        #                         self.hls.s_axilite.aw.addr,
                                 
-                                self.hls.s_axilite.w.valid,
-                                self.hls.s_axilite.w.ready,
-                                self.hls.s_axilite.w.data,
+        #                         self.hls.s_axilite.w.valid,
+        #                         self.hls.s_axilite.w.ready,
+        #                         self.hls.s_axilite.w.data,
                                 
-                                self.hls.s_axilite.b.valid,
-                                self.hls.s_axilite.b.ready,
-                                self.hls.s_axilite.b.resp,
-                                                     ]
-                                # self.bus.main_ram.stb,
-                                # self.bus.main_ram.ack,
-                                # self.bus.main_ram.adr,
-                                # self.bus.main_ram.dat_w,
-                                # self.bus.main_ram.dat_r,
-                                # self.bus]
+        #                         self.hls.s_axilite.b.valid,
+        #                         self.hls.s_axilite.b.ready,
+        #                         self.hls.s_axilite.b.resp,
+        #                                              ]
+        #                         # self.bus.main_ram.stb,
+        #                         # self.bus.main_ram.ack,
+        #                         # self.bus.main_ram.adr,
+        #                         # self.bus.main_ram.dat_w,
+        #                         # self.bus.main_ram.dat_r,
+        #                         # self.bus]
                                
-            self.submodules.analyzer = LiteScopeAnalyzer(analyzer_signals,
-                depth        = 2048,
-                clock_domain = "sys",
-                csr_csv      = "analyzer.csv")
+        #     self.submodules.analyzer = LiteScopeAnalyzer(analyzer_signals,
+        #         depth        = 2048,
+        #         clock_domain = "sys",
+        #         csr_csv      = "analyzer.csv")
 
 def main(customizations=None):
     from litex.build.parser import LiteXArgumentParser
